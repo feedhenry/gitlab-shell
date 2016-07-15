@@ -33,6 +33,7 @@ RUN mkdir /home/git/gitlab-config && \
           -e "s|^[#]*GSSAPIAuthentication yes|GSSAPIAuthentication no|" \
           -e "s|^[#]*ChallengeResponseAuthentication no|ChallengeResponseAuthentication no|" \
           -e "s|^[#]*PasswordAuthentication yes|PasswordAuthentication no|" \
+          -e "s|^[#]*StrictModes yes|StrictModes no|" \
           /etc/ssh/sshd_config && \
     echo -e "UseDNS no \nAuthenticationMethods publickey" >> /etc/ssh/sshd_config && \
     chmod -Rf +x /home/git/gitlab-shell/bin
