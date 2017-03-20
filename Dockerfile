@@ -6,16 +6,15 @@ RUN ["bash", "-c", "yum install -y --setopt=tsflags=nodocs openssh-server ed lib
      sshd-keygen && \
      mkdir /var/run/sshd"]
 # add a user that id a member of the root group. we will replace later with the user assigned to the pod. Change perms to allow the root group to modify and use files as needed. These changes allow the pod assigned user to be part of the root group and have a real uid assigned
-RUN adduser --system -s /bin/bash -u 1234321 -g 0 git && \ 
-   chown root:root /etc/ssh/* /home && \
-   chmod 775 /etc/ssh /home && \  
-   chmod 660 /etc/ssh/sshd_config && \
-   chmod 664 /etc/passwd /etc/group && \
-   chmod 775 /var/run && \
-   mkdir -p /home/git/data/gls && \
-   chmod -R 775 /home/git && \
-   chmod -R 775 /opt/app-root
-  
+RUN chown root:root /etc/ssh/* /home && \
+    chmod 775 /etc/ssh /home && \
+    chmod 660 /etc/ssh/sshd_config && \
+    chmod 664 /etc/passwd /etc/group && \
+    chmod 775 /var/run && \
+    mkdir -p /home/git/data/gls && \
+    chmod -R 775 /home/git && \
+    chmod -R 775 /opt/app-root
+
 EXPOSE 2022
 # gitlab-shell setup
 USER root
@@ -48,6 +47,6 @@ RUN rm -f /run/nologin && \
     ln -s /home/git/gitlab-config/config.yml && \
     chmod -R 775 /home/git
 
-USER git
+USER 1000120000
 
-CMD echo -e ",s/1234321/`id -u`/g\\012 w" | ed -s /etc/passwd && ssh-keygen -A && bin/start.sh
+CMD ["bin/start.sh"]
