@@ -109,3 +109,4 @@ Change /mnt/src to repository dir.
 
     # Connect for debugging
     docker exec -it gitlab bash
+abc
